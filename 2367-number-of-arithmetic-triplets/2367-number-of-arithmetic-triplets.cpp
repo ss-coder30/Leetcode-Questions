@@ -2,17 +2,20 @@ class Solution {
 public:
     int arithmeticTriplets(vector<int>& nums, int diff) {
         int n = nums.size();
-        int count = 0;
+        
+        unordered_map<int, int> hash;
+        int ans = 0;
         
         for(int i = 0; i<n; i++){
-            for(int j = i; j<n; j++){
-                for(int k = j; k<n; k++){
-                    if(nums[k] - nums[j] == diff && nums[j] - nums[i] == diff){
-                        count++;
-                    }
-                }
+            hash[nums[i]]++;
+        }
+        
+        for(auto it: hash){
+            if(hash.find(it.first - diff) != hash.end() && hash.find(it.first + diff) != hash.end()){
+                ans++;
             }
         }
-        return count;
+        
+        return ans;
     }
 };
