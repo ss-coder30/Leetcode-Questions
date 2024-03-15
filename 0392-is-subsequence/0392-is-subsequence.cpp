@@ -1,27 +1,17 @@
 class Solution {
 public:
-    
-    bool checkSubSequence(int leftIndex, int rightIndex, string s, string t){
+    bool isSubsequence(string s, string t) {
         int leftBound = s.size();
         int rightBound = t.size();
         
-        if(leftIndex == leftBound) return true;
+        int left = 0, right = 0;
         
-        if(rightIndex == rightBound) return false;
-           
-        if(s[leftIndex] == t[rightIndex]){
-            leftIndex++;
+        while(left < leftBound && right < rightBound){
+            if(s[left] == t[right]) left++;
+            
+            right++;
         }
-        rightIndex++;
-           
-        return checkSubSequence(leftIndex, rightIndex, s, t);
-    }
-    
-    bool isSubsequence(string s, string t) {
-        int leftIndex = 0, rightIndex = 0;
-        int sSize = s.size();
-        int tSize = t.size();
         
-        return checkSubSequence(0, 0, s, t);
+        return (left == leftBound);
     }
 };
