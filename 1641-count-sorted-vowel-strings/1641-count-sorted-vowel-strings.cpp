@@ -2,19 +2,14 @@ class Solution {
 public:
     
     int countVowelString(int n, int vowels){
-        if(n == 0) return 1;
+        if(n == 1) return vowels;
+        if(vowels == 1) return 1;
         
-        int result = 0;
-        
-        for(int i = vowels; i<=5; i++){
-            result += countVowelString(n-1, i);
-        }
-        
-        return result;
+        return countVowelString(n-1, vowels) + countVowelString(n, vowels-1);
     }
     
     int countVowelStrings(int n) {
         
-        return countVowelString(n, 1);
+        return countVowelString(n, 5);
     }
 };
