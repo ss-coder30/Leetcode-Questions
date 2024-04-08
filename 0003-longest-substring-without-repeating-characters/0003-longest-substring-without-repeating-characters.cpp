@@ -2,20 +2,24 @@ class Solution {
 public:
     int lengthOfLongestSubstring(string s) {
         int n = s.size();
-        set<char> st;
-        int maxLen = 0;
-        int i = 0, j = 0; // Use two pointers to track the substring
+        vector<int> hash(256, -1); // to store index of elements
         
-        while (j < n) {
-            // If s[j] is not in the set, extend the substring
-            if (st.find(s[j]) == st.end()) {
-                st.insert(s[j]);
-                maxLen = max(maxLen, j - i + 1);
-                j++;
-            } else { // If s[j] is in the set, shrink the substring from the left
-                st.erase(s[i]);
-                i++;
+        int left = 0, right = 0, maxLen = 0;
+        
+        while(right < n){
+            
+            // if s[right] is present in hash
+            if(hash[s[right]] != -1){
+                if(hash[s[right]] >= left){
+                    left = hash[s[right]]+1;
+                }
             }
+            
+            // else get maxLen and update hash array
+            int len = right-left+1;
+            maxLen = max(maxLen, len);
+            hash[s[right]] = right;
+            right++;
         }
         
         return maxLen;
