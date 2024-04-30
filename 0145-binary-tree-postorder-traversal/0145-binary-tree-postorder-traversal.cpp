@@ -11,24 +11,36 @@
  */
 class Solution {
 public:
-    
-    vector<int> ans;
-    
-    void traversal(TreeNode* root){
+    vector<int> postorderTraversal(TreeNode* root) {
+        // using 2 stacks
+        vector<int> postOrder;
         
-        // base case
         if(root == nullptr){
-            return;
+            return postOrder;
         }
         
-        traversal(root->left);
-        traversal(root->right);
-        ans.push_back(root->val);
-    }
-    
-    vector<int> postorderTraversal(TreeNode* root) {
+        stack<TreeNode*> st1, st2;
+        st1.push(root);
         
-        traversal(root);
-        return ans;
+        while(!st1.empty()){
+            root = st1.top();
+            st1.pop();
+            st2.push(root);
+            
+            if(root->left != nullptr){
+                st1.push(root->left);
+            }
+            
+            if(root->right != nullptr){
+                st1.push(root->right);
+            }
+        }
+        
+        while(!st2.empty()){
+            postOrder.push_back(st2.top()->val);
+            st2.pop();
+        }
+        
+        return postOrder;
     }
 };
