@@ -12,16 +12,37 @@
 class Solution {
 public:
     int maxDepth(TreeNode* root) {
+        // bfs approach
         
+        // base case
         if(root == nullptr){
             return 0;
         }
         
-        int leftHeight = maxDepth(root->left);
-        int rightHeight = maxDepth(root->right);
+        queue<TreeNode*>q;
+        int height = 0;
         
-        int maxHeight = 1 + max(leftHeight, rightHeight);
+        q.push(root);
         
-        return maxHeight;
+        while(!q.empty()){
+            int count = q.size();
+            
+            for(int i = 0; i<count; i++){
+                TreeNode* node = q.front();
+                q.pop();
+                
+                if(node->left != nullptr){
+                    q.push(node->left);
+                }
+                
+                if(node->right != nullptr){
+                    q.push(node->right);
+                }
+            }
+            
+            height++;
+        }
+        
+        return height;
     }
 };
