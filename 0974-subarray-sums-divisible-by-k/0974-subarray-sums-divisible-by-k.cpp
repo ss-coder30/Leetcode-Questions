@@ -1,22 +1,28 @@
 class Solution {
 public:
     int subarraysDivByK(vector<int>& nums, int k) {
-        int n = nums.size();
-        int prefixMod = 0, result = 0;
-
-        // There are k mod groups 0...k-1.
-        vector<int> modGroups(k);
-        modGroups[0] = 1;
-
-        for (int num : nums) {
-            // Take modulo twice to avoid negative remainders.
-            prefixMod = (prefixMod + num % k + k) % k;
-            // Add the count of subarrays that have the same remainder as the current
-            // one to cancel out the remainders.
-            result += modGroups[prefixMod];
-            modGroups[prefixMod]++;
+        
+        unordered_map<int, int> hash;
+        int ans = 0;
+        int sum = 0;
+        int rem = 0;
+        hash[rem]++;
+        
+        for(int i = 0; i<nums.size(); i++){
+            
+            sum += nums[i];
+            rem = sum % k;
+            if(rem < 0){
+                rem += k;
+            }
+            
+            if(hash.find(rem) != hash.end()){
+                ans += hash[rem];
+            }
+            
+            hash[rem]++;
         }
-
-        return result;
+        
+        return ans;
     }
 };
