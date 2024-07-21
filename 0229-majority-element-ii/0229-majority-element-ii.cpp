@@ -5,13 +5,12 @@ public:
         unordered_map<int, int> hash;
         int n = nums.size();
         vector<int> ans;
+        int minFreq = (n/3)+1;
         
         for(const auto& it: nums){
             hash[it]++;
-        }
-        
-        for(const auto& it: hash){
-            if(it.second > n/3) ans.emplace_back(it.first);
+            
+            if(hash[it] == minFreq) ans.push_back(it);
         }
         
         return ans;
