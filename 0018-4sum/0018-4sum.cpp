@@ -2,39 +2,50 @@ class Solution {
 public:
     vector<vector<int>> fourSum(vector<int>& nums, int target) {
         
-        // better solution
-        // time complexity - O(n^3)
-        // space complexity - O(1)
+        // optimal solution
         
         int n = nums.size();
-        set<vector<int>> st;
+        vector<vector<int>> ans;
+        
+        // to prevent using sets
+        sort(nums.begin(), nums.end());
         
         for(int i = 0; i<n; i++){
+            
+            // to remove duplicates
+            if(i > 0 && nums[i] == nums[i-1]) continue;
+            
             for(int j = i+1; j<n; j++){
                 
-                set<long long> hashSet;
-                for(int k = j+1; k<n; k++){
-                    
-                    long long sum = nums[i] + nums[j];
+                // to remove duplicates
+                if(j != i+1 && nums[j] == nums[j-1]) continue;
+                
+                // using 2 pointers for remaining 2 numbers
+                int k = j+1;
+                int l = n-1;
+                while(k < l){
+                    long long sum = nums[i];
+                    sum += nums[j];
                     sum += nums[k];
+                    sum += nums[l];
                     
-                    long long fourth = target - sum;
-                    
-                    // if fourth element is present in hashSet
-                    if(hashSet.find(fourth) != hashSet.end()){
-                        vector<int> temp = {nums[i], nums[j], nums[k], (int)fourth};
-                        // to make the vector unique
-                        sort(temp.begin(), temp.end());
-                        st.insert(temp);
+                    if(sum == target){
+                        vector<int> temp = {nums[i], nums[j], nums[k], nums[l]};
+                        ans.push_back(temp);
+                        k++;
+                        l--;
+                        
+                        // to remove duplicates
+                        while(k<l && nums[k] == nums[k-1]) k++;
+                        while(k<l && nums[l] == nums[l+1]) l--;
                     }
                     
-                    // adding the element to the hashSet
-                    hashSet.insert(nums[k]);
+                    else if(sum < target) k++;
+                    
+                    else l--;
                 }
             }
         }
-        
-        vector<vector<int>> ans(st.begin(), st.end());
         
         return ans;
     }
