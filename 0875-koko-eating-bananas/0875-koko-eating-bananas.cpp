@@ -2,7 +2,7 @@ class Solution {
 public:
     
     int maxElement(vector<int>& a){
-        int maxi = 0;
+        int maxi = INT_MIN;
         
         for(int i = 0; i<a.size(); i++){
             maxi = max(maxi, a[i]);
@@ -11,23 +11,29 @@ public:
         return maxi;
     }
     
+    int calculateHours(vector<int>& a, int hourly){
+        long long totalHours = 0;
+        
+        for(int i = 0; i<a.size(); i++){
+            totalHours += (a[i] + hourly - 1)/ hourly;
+        }
+        
+        return (int)totalHours;
+    }
+    
     int minEatingSpeed(vector<int>& piles, int h) {
         
         int low = 1, high = maxElement(piles);
-        int ans = 0;
         
         while(low < high){
             int mid = low + (high - low)/2;
             
-            long long time = 0;
-            for(int pile: piles){
-                time += (pile + mid - 1)/mid;
-            }
+            int time = calculateHours(piles, mid);
             
-            if((int)time <= h){
-                
+            if(time <= h){
                 high = mid;
             }
+            
             else {
                 low = mid+1;
             }
